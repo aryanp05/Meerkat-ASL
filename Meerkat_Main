@@ -22,6 +22,8 @@ captureset_size = 250
 small_capture_size = 15
 large_capture_size = 50
 
+mode = 0
+
 cap = cv2.VideoCapture(1)
 
 mp_hands = mp.solutions.hands
@@ -84,6 +86,7 @@ def capture_mode():
                 break
 
 def testing_mode():
+    global mode
     current_symbol = ''
     model_dict = pickle.load(open('./model.pickle', 'rb'))
     model = model_dict['model']
@@ -131,8 +134,8 @@ def testing_mode():
             y2 = int(max(y_) * H) - 10
 
             prediction = str(model.predict([np.asarray(data_aux)]))
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-            cv2.putText(frame, prediction, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (mode, mode, mode), 4)
+            cv2.putText(frame, prediction, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (mode, mode, mode), 3,
                         cv2.LINE_AA)
 
         cv2.putText(frame, 'TESTING, TO CORRECT FOR: {}'.format(current_symbol), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 255), 3, cv2.LINE_AA)
@@ -182,8 +185,14 @@ def testing_mode():
             subprocess.call(['python', 'Meerkat_Train'])
             model_dict = pickle.load(open('./model.pickle', 'rb'))
             model = model_dict['model']
+        elif pressed_key == ord('['):
+            if mode == 0:
+                mode = 255
+            else:
+                mode = 0
         elif not pressed_key == -1:
                 current_symbol += (chr(pressed_key))
+        
 
 
 
@@ -233,8 +242,8 @@ while True:
 
         prediction = str(model.predict([np.asarray(data_aux)]))
 
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-        cv2.putText(frame, prediction, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (mode, mode, mode), 4)
+        cv2.putText(frame, prediction, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (mode, mode, mode), 3,
                     cv2.LINE_AA)
 
     cv2.imshow('frame', frame)
@@ -242,18 +251,16 @@ while True:
     if pressed_key == ord('/'):
         break
     elif pressed_key == ord(';'):
-        cv2.putText(frame, 'Switching to Testing Mode', (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (255, 0, 0), 3, cv2.LINE_AA)
-        cv2.imshow('frame', frame)
-        cv2.waitKey(25)
         testing_mode()
         model_dict = pickle.load(open('./model.pickle', 'rb'))
         model = model_dict['model']
-
     elif pressed_key == ord('.'):
-        cv2.putText(frame, 'Switching to Capture Data Mode', (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (255, 0, 0), 3, cv2.LINE_AA)
-        cv2.imshow('frame', frame)
-        cv2.waitKey(25)
         capture_mode()
+    elif pressed_key == ord('['):
+        if mode == 0:
+            mode = 255
+        else:
+            mode = 0
 
     
 cap.release()
