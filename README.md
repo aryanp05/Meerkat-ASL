@@ -15,7 +15,7 @@ To get started with Meerkat ASL, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Install the required dependencies by running `pip install -r requirements.txt`.
-3. Run `Meerkat_Main.py` to launch the application.
+3. Run `Meerkat_ASL.py` to launch the application.
 
 ## Usage
 
