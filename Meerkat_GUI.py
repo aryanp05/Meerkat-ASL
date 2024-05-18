@@ -19,7 +19,7 @@ def mouse_callback(event, x, y, flags, param):
     if point_inside_rect(x, y, (box_x1, box_y, box_width, box_height)):
         box1_hover = True
         if event == cv2.EVENT_LBUTTONDOWN:
-            from Meerkat_Main_F import ASL_mode
+            from Meerkat_Main import ASL_mode
     else:
         box1_hover = False
 
