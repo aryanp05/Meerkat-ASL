@@ -8,14 +8,11 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+
 # Ensures there is a directory to store all image data
 RAW_IMG_DATA = './RAW_IMGS'
 if not os.path.exists(RAW_IMG_DATA):
     os.makedirs(RAW_IMG_DATA)
-
-# load model
-model_dict = pickle.load(open('./model.pickle', 'rb'))
-model = model_dict['model']
 
 # set data sizes
 captureset_size = 250
@@ -24,15 +21,17 @@ large_capture_size = 50
 
 mode = 0
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 
-hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
+hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)  
+
 
 def capture_mode():
+    global cap
     global model
     current_symbol =''
 
@@ -43,7 +42,7 @@ def capture_mode():
         while True:
             ret, frame = cap.read()
             H, W, _ = frame.shape
-            cv2.putText(frame, 'Current Word: {}'.format(current_symbol), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 255), 3, cv2.LINE_AA)
+            cv2.putText(frame, '(CAPTURE MODE) Current Word: {}'.format(current_symbol), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 255), 3, cv2.LINE_AA)
             cv2.imshow('frame', frame)
             current_key = cv2.waitKey(25)
             if current_key == ord('/'):
@@ -99,6 +98,7 @@ def capture_mode():
                 break
 
 def testing_mode():
+    global cap
     global mode
     current_symbol = ''
     model_dict = pickle.load(open('./model.pickle', 'rb'))
@@ -159,6 +159,8 @@ def testing_mode():
         elif pressed_key == 127:
             current_symbol = current_symbol[:-1]
         elif pressed_key == 13:
+            if current_symbol == '':
+                continue
             count = 0
             if not os.path.exists(os.path.join(RAW_IMG_DATA, current_symbol)):
                 os.makedirs(os.path.join(RAW_IMG_DATA, current_symbol))
@@ -174,6 +176,8 @@ def testing_mode():
                 filename += 1
             current_symbol = ''
         elif pressed_key == ord(']'):
+            if current_symbol == '':
+                continue
             count = 0
             if not os.path.exists(os.path.join(RAW_IMG_DATA, current_symbol)):
                 os.makedirs(os.path.join(RAW_IMG_DATA, current_symbol))
@@ -207,6 +211,7 @@ def testing_mode():
                 current_symbol += (chr(pressed_key))
         
 def ASL_mode():
+    global cap
     while True:
         global model
         global mode
@@ -273,7 +278,12 @@ def ASL_mode():
             else:
                 mode = 0
 
-    
+# load model
+if not os.path.exists("./model.pickle"):
+    capture_mode()
+model_dict = pickle.load(open('./model.pickle', 'rb'))
+model = model_dict['model']
+
 ASL_mode()
 
 cap.release()
