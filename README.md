@@ -2,8 +2,8 @@
 
 **Meerkat ASL** is a project aimed at building an American Sign Language (ASL) recognition system using computer vision techniques and machine learning algorithms. Meerkat ASL allows users to capture their own data for ASL by simply showing their camera the hand sign and typing the associated word. Meerkat will use the user data to then train itself in order to recognize the hand gesture and output it. Meerkat ASL also allows users to make fine tuning adjustments to the AI model through a testing mode, which allows users to use their camera to correct the AI if it produces an incorrect output for hand gesture at a specific angle or height. Meerkat ASL also comes with a easy to navigate GUI and allows users to learn any keybinds needed to utlize the machine.
 
-[![Model-R](screenshot/MASL1.png)](https://www.youtube.com/watch?v=dRukDY0sVq8)
-Clikc on Image or Click Here for Demo: https://www.youtube.com/watch?v=dRukDY0sVq8
+[![Model-R](screenshot/MASL1.png)](https://youtu.be/i0l1VKhnkzo)
+Clikc on Image or Click Here for Demo: https://youtu.be/i0l1VKhnkzo
 
 ## Features
 
