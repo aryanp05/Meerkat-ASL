@@ -50,10 +50,12 @@ while True:
     while counter < captureset_size:
         ret, frame = cap.read()
         cv2.imshow('window', frame)
+        flipped_frame = cv2.flip(frame, 1)
         cv2.waitKey(25)
         if not os.path.exists(os.path.join(RAW_IMG_DATA, current_symbol)):
             os.makedirs(os.path.join(RAW_IMG_DATA, current_symbol))
         cv2.imwrite(os.path.join(RAW_IMG_DATA, current_symbol, '{}.jpg'.format(counter)), frame)
+        cv2.imwrite(os.path.join(RAW_IMG_DATA, current_symbol, '{}_rvs.jpg'.format(counter)), flipped_frame)
         counter += 1
         if current_key == ord('/'):
             to_exit = True

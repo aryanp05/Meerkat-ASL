@@ -49,15 +49,19 @@ symbols = []
 for data_files in os.listdir(DATA_FILES):
     if data_files == '.DS_Store':
         continue
-    print('{}'.format(data_files))
+    #print('{}'.format(data_files))
     dict = pickle.load(open(os.path.join(DATA_FILES, data_files), 'rb'))
     dict_data = dict['data']
     dict_symbols = dict['symbols']
     for i in range(len(dict_data)):
+        if (len(dict_data[i]) != 42):
+            continue
         data.append(dict_data[i])
         symbols.append(dict_symbols[i])
 if os.path.exists('data_pickle'):        
     os.remove('data_pickle')
+print(data)
+print(symbols)
 f = open('data_pickle', 'wb')
 pickle.dump({'data': data, 'symbols': symbols}, f)
 f.close()
