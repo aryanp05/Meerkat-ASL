@@ -12,6 +12,11 @@ Clikc on Image or Click Here for Demo: https://www.youtube.com/watch?v=dRukDY0sV
 - **Testing Mode**: Enables users to test the ASL recognition system by inputting ASL gestures and receiving predictions.
 - **Training Mode**: Trains the machine learning model using captured ASL gesture data.
 
+## TensorFlow
+In the Meerkat ASL project, TensorFlow was instrumental in creating and training a Convolutional Neural Network (CNN) model for recognizing American Sign Language (ASL) gestures. Using TensorFlow's Keras API, the model processed 42-dimensional input data representing hand landmarks extracted from ASL gesture images. It included convolutional layers for feature extraction, pooling layers for downsampling, and dense layers for classification. The model was optimized using the Adam optimizer with a learning rate decay schedule, achieving a high accuracy rate in predicting ASL gestures during evaluation. The trained model and label encoder were saved for future ASL recognition tasks.
+
+
+
 ## Getting Started
 
 To get started with Meerkat ASL, follow these steps:
